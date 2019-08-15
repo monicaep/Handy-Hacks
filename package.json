@@ -1,0 +1,29 @@
+{
+  "name": "handy-hacks",
+  "version": "1.0.0",
+  "description": "A place for sharing hacks.",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "export NODE_ENV=test&& jasmine",
+    "start": "node src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/monicaep/Handy-Hacks.git"
+  },
+  "author": "Monica",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/monicaep/Handy-Hacks/issues"
+  },
+  "homepage": "https://github.com/monicaep/Handy-Hacks#readme",
+  "devDependencies": {
+    "jasmine": "^3.4.0",
+    "request": "^2.88.0"
+  },
+  "dependencies": {
+    "dotenv": "^8.0.0",
+    "ejs": "^2.6.2",
+    "express": "^4.17.1"
+  }
+}

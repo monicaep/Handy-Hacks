@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <% include ./partials/head.ejs %>
+
+  </head>
+  <body>
+
+    <% include ./partials/navbar.ejs %>
+
+    <main class="container">
+      <header class="jumbotron my-4">
+        <h1 class="display-3">Welcome to Handy Hacks</h1>
+        <p class="lead">An application for hacks.</p>
+        <a href="#" class="btn btn-primary btn-lg">Sign up</a>
+      </header>
+
+      <section class="row text-center">
+
+        <section class="col-lg-4">
+          <h4 class="card-title">Post</h4>
+          <p class="card-text">Share your hacks with the world.</p>
+        </section>
+
+        <section class="col-lg-4">
+          <h4 class="card-title">Comment</h4>
+          <p class="card-text">Let others know about your hacking experiences.</p>
+        </section>
+
+        <section class="col-lg-4">
+          <h4 class="card-title">Vote</h4>
+          <p class="card-text">Upvote the handiest hacks!</p>
+        </section>
+      </section>
+    </main>
+
+    <% include ./partials/baseScripts.ejs %>
+
+  </body>
+</html>
