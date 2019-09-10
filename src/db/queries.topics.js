@@ -1,4 +1,5 @@
 const Topic = require("./models").Topic;
+const Hack = require("./models").Hack;
 
 module.exports = {
   getAllTopics(callback) {
@@ -13,7 +14,12 @@ module.exports = {
   },
 
   getTopic(id, callback) {
-    return Topic.findByPk(id)
+    return Topic.findByPk(id, {
+      include: [{
+        model: Hack,
+        as: "hacks"
+      }]
+    })
     .then((topic) => {
       callback(null, topic);
     })
