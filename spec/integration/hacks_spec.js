@@ -63,6 +63,27 @@ describe("routes : hacks", () => {
         });
       });
     });
+
+    it("should not create a new hack that fails validations", (done) => {
+      const options = {
+        url: `${base}/${this.topic.id}/hacks/create`,
+        form: {
+          title: "a",
+          body: "b"
+        }
+      };
+      request.post(options, (err, res, body) => {
+        Hack.findOne({where: {title: "a"}})
+        .then((hack) => {
+          expect(hack).toBeNull();
+          done();
+        })
+        .catch((err) => {
+          console.log(err);
+          done();
+        });
+      });
+    });
   });
 
   describe("GET /topics/:topicId/hacks/:id", () => {
