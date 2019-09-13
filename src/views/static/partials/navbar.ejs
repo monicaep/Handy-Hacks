@@ -7,7 +7,14 @@
     <div class="navbar-nav">
       <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
       <a class="nav-item nav-link" href="/topics">Hacks</a>
-      <a class="nav-item nav-link" href="#">Sign up</a>
+
+      <% if(currentUser) { %>
+        <a class="nav-item nav-link" href="/users/sign_out">Sign out</a>
+      <% } else { %>
+        <a class="nav-item nav-link" href="/users/sign_up">Sign up</a>
+        <a class="nav-item nav-link" href="/users/sign_in>Sign in</a>"
+      <% } %>
+
     </div>
   </div>
 </nav>
