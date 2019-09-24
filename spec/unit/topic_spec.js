@@ -1,31 +1,39 @@
 const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
 const Hack = require("../../src/db/models").Hack;
+const User = require("../../src/db/models").User;
 
 describe("Topic", () => {
   beforeEach((done) => {
     this.topic;
     this.hack;
+    this.user;
     sequelize.sync({force: true}).then((res) => {
-      Topic.create({
-        title: "Home"
+      User.create({
+        email: "example@example.com",
+        password: "123456"
       })
-      .then((topic) => {
-        this.topic = topic;
+      .then((user) => {
+        this.user = user;
 
-        Hack.create({
-          title: "Covering scratches on furniture",
-          body: "Rub a walnut over scratch marks on wooden furniture. The natural oils in the walnut help cover the scratches.",
-          topicId: this.topic.id
+        Topic.create({
+          title: "Home",
+          hacks: [{
+            title: "Covering scratches on furniture",
+            body: "Rub a walnut over scratch marks on wooden furniture. The natural oils in the walnut help cover the scratches.",
+            userId: this.user.id
+          }]
+        }, {
+          include: {
+            model: Hack,
+            as: "hacks"
+          }
         })
-        .then((hack) => {
-          this.hack = hack;
+        .then((topic) => {
+          this.topic = topic;
+          this.hack = topic.hacks[0];
           done();
         });
-      })
-      .catch((err) => {
-        console.log(err);
-        done();
       });
     });
   });

@@ -4,25 +4,37 @@ const base = "http://localhost:3000/topics";
 const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
 const Hack = require("../../src/db/models").Hack;
+const User = require("../../src/db/models").User;
 
 describe("routes : hacks", () => {
   beforeEach((done) => {
     this.topic;
     this.hack;
+    this.user;
     sequelize.sync({force: true}).then((res) => {
-      Topic.create({
-        title: "Life"
+      User.create({
+        email: "example@example.com",
+        password: "123456"
       })
-      .then((topic) => {
-        this.topic = topic;
+      .then((user) => {
+        this.user = user;
 
-        Hack.create({
-          title: "Makeshift lint roller",
-          body: "Use packing tape to create a make shift lint roller. Roll the tape around the roll, with the sticky side facing out. Roll away lint!",
-          topicId: this.topic.id
+        Topic.create({
+          title: "Life",
+          hacks: [{
+            title: "Makeshift lint roller",
+            body: "Use packing tape to create a make shift lint roller. Roll the tape around the roll, with the sticky side facing out. Roll away lint!",
+            userId: this.user.id
+          }]
+        }, {
+          include: {
+            model: Hack,
+            as: "hacks"
+          }
         })
-        .then((hack) => {
-          this.hack = hack;
+        .then((topic) => {
+          this.topic = topic;
+          this.hack = topic.hacks[0];
           done();
         });
       });
@@ -40,7 +52,7 @@ describe("routes : hacks", () => {
   });
 
   describe("POST /topics/:topicId/hacks/create", () => {
-    it("should create a new hack and redirect ", (done) => {
+    it("should create a new hack", (done) => {
       const options = {
         url: `${base}/${this.topic.id}/hacks/create`,
         form: {
@@ -108,19 +120,6 @@ describe("routes : hacks", () => {
   });
 
   describe("POST /topics/:topicId/hacks/:id/update", () => {
-    it("should return status code 302", (done) => {
-      request.post({
-        url: `${base}/${this.topic.id}/hacks/${this.hack.id}/update`,
-        form: {
-          title: "Lint rolling without a lint roller",
-          body: "Use packing tape to create a make shift lint roller. Roll the tape around the roll, with the sticky side facing out. Roll away lint!"
-        }
-      }, (err, res, body) => {
-        expect(res.statusCode).toBe(302);
-        done();
-      });
-    });
-
     it("should update the hack with the given values", (done) => {
       const options = {
         url: `${base}/${this.topic.id}/hacks/${this.hack.id}/update`,

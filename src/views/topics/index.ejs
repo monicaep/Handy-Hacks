@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
+
     <% include ../static/partials/head.ejs %>
+
   </head>
   <body>
     <main class="container">
@@ -10,7 +12,9 @@
 
       <h1>Topics</h1>
 
-      <a href="/topics/new" class="btn btn-primary">New Topic</a>
+      <% if (currentUser && currentUser.isAdmin()) { %>
+        <a href="/topics/new" class="btn btn-primary">New Topic</a>
+      <% } %>
 
       <div class="card-deck">
         <% topics.forEach((topic) => { %>
@@ -25,5 +29,8 @@
         <% }) %>
       </div>
     </main>
+
+    <% include ../static/partials/baseScripts.ejs %>
+    
   </body>
 </html>

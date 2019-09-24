@@ -11,10 +11,14 @@
 
     <main class="container">
       <h1><%= hack.title %></h1>
-      <a href="/topics/<%= hack.topicId %>/hacks/<%= hack.id %>/edit" class="btn btn-warning">Edit</a>
-      <form style="display:initial" action="topics/<%= hack.topicId %>/hack/<%= hack.id %>/destroy" method="post">
-        <button type="submit" class="btn btn-danger">Delete</button>
-      </form>
+
+      <% if (currentUser.id === hack.userId) { %>
+        <a href="/topics/<%= hack.topicId %>/hacks/<%= hack.id %>/edit" class="btn btn-warning">Edit</a>
+        <form style="display:initial" action="/topics/<%= hack.topicId %>/hacks/<%= hack.id %>/destroy" method="post">
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+      <% } %>
+
       <p><%= hack.body %></p>
     </main>
 

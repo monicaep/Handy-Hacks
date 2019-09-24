@@ -1,5 +1,6 @@
 const Hack = require("./models").Hack;
 const Topic = require("./models").Topic;
+const Authorizer = require("../policies/application");
 
 module.exports = {
   addHack(newHack, callback) {
@@ -22,25 +23,52 @@ module.exports = {
     })
   },
 
-  updateHack(id, updatedHack, callback) {
-    return Hack.findByPk(id)
+  updateHack(req, updatedHack, callback) {
+    return Hack.findByPk(req.params.id)
     .then((hack) => {
-      if(!hack) {
+      if (!hack) {
         return callback("Hack not found");
       }
-      hack.update(updatedHack, {
-        fields: Object.keys(updatedHack)
-      })
-      .then(() => {
-        callback(null, hack);
-      })
-      .catch((err) => {
-        callback(err);
-      });
+      const authorized = new Authorizer(req.user, hack).update();
+
+      if (authorized) {
+        hack.update(updatedHack, {
+          fields: Object.keys(updatedHack)
+        })
+        .then(() => {
+          callback(null, hack);
+        })
+        .catch((err) => {
+          callback(err);
+        });
+      } else {
+        req.flash("notice", "You are not authorized to do that.");
+        callback("Forbidden");
+      }
     });
   },
 
-  deleteHack(id, callback) {
+  deleteHack(req, callback) {
+    return Hack.findByPk(req.params.id)
+    .then((hack) => {
+      const authorized = new Authorizer(req.user, hack).destroy();
+
+      if (authorized) {
+        hack.destroy()
+        .then((res) => {
+          callback(null, hack);
+        })
+      } else {
+        req.flash("notice", "You are not authorized to do that.");
+        callback(401);
+      }
+    })
+    .catch((err) => {
+      callback(err);
+    });
+  }
+
+  /*deleteHack(id, callback) {
     return Hack.destroy({
       where: {id}
     })
@@ -50,5 +78,5 @@ module.exports = {
     .catch((err) => {
       callback(err);
     })
-  }
+  }*/
 }

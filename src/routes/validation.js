@@ -12,7 +12,7 @@ module.exports = {
     }
   },
 
-  validatePosts(req, res, next) {
+  validateHacks(req, res, next) {
     if(req.method === "POST") {
       req.checkParams("topicId", "must be valid").notEmpty().isInt();
       req.checkBody("title", "must be at least 2 characters in length").isLength({min: 2});
