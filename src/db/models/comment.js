@@ -1,15 +1,11 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Hack = sequelize.define('Hack', {
-    title: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
+  const Comment = sequelize.define('Comment', {
     body: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    topicId: {
+    hackId: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
@@ -18,22 +14,17 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     }
   }, {});
-  Hack.associate = function(models) {
+  Comment.associate = function(models) {
     // associations can be defined here
-    Hack.belongsTo(models.Topic, {
-      foreignKey: "topicId",
+    Comment.belongsTo(models.Hack, {
+      foreignKey: "hackId",
       onDelete: "CASCADE"
     });
 
-    Hack.belongsTo(models.User, {
+    Comment.belongsTo(models.User, {
       foreignKey: "userId",
       onDelete: "CASCADE"
     });
-
-    Hack.hasMany(models.Comment, {
-      foreignKey: "hackId",
-      as: "comments"
-    });
   };
-  return Hack;
+  return Comment;
 };

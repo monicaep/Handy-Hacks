@@ -1,5 +1,7 @@
 const Hack = require("./models").Hack;
 const Topic = require("./models").Topic;
+const Comment = require("./models").Comment;
+const User = require("./models").User;
 const Authorizer = require("../policies/application");
 
 module.exports = {
@@ -14,7 +16,13 @@ module.exports = {
   },
 
   getHack(id, callback) {
-    return Hack.findByPk(id)
+    return Hack.findByPk(id, {
+      include: [
+        {model: Comment, as: "comments", include: [
+          {model: User}
+        ]}
+      ]
+    })
     .then((hack) => {
       callback(null, hack);
     })

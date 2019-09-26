@@ -23,7 +23,12 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(models.Hack, {
       foreignKey: "userId",
       as: "hacks"
-    })
+    });
+
+    User.hasMany(models.Comment, {
+      foreignKey: "userId",
+      as: "comments"
+    });
   };
 
   User.prototype.isAdmin = function() {
