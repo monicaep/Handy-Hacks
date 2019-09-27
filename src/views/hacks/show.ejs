@@ -10,7 +10,15 @@
     <% include ../static/partials/navbar.ejs %>
 
     <main class="container">
+
+      <% include ../static/partials/messages.ejs %>
+
+      <div style="display: flex; align-items:center;">
+        <% if (currentUser) { %>
+          <% include ../votes/voting.ejs %>
+        <% } %>
       <h1><%= hack.title %></h1>
+      </div>
 
       <% if (currentUser.id === hack.userId) { %>
         <a href="/topics/<%= hack.topicId %>/hacks/<%= hack.id %>/edit" class="btn btn-warning">Edit</a>

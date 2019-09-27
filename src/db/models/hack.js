@@ -34,6 +34,19 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "hackId",
       as: "comments"
     });
+
+    Hack.hasMany(models.Vote, {
+      foreignKey: "hackId",
+      as: "votes"
+    });
   };
+
+  Hack.prototype.getPoints = function() {
+    if (this.votes.length === 0) return 0;
+    return this.votes
+      .map((v) => {return v.value})
+      .reduce((prev, next) => {return prev + next})
+  };
+
   return Hack;
 };
