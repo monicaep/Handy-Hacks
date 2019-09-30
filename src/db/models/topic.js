@@ -4,6 +4,10 @@ module.exports = (sequelize, DataTypes) => {
     title: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    image: {
+      type: DataTypes.STRING,
+      allowNull: false
     }
   }, {});
   Topic.associate = function(models) {

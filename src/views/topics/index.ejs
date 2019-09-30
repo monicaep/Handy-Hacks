@@ -10,27 +10,33 @@
 
       <% include ../static/partials/navbar.ejs %>
 
-      <h1>Topics</h1>
+      <div class="row" id="topics-title">
+        <div class="col-10">
+          <h1>Topics</h1>
+        </div>
 
-      <% if (currentUser && currentUser.isAdmin()) { %>
-        <a href="/topics/new" class="btn btn-primary">New Topic</a>
-      <% } %>
+        <div class="col-2 align-self-center">
+          <% if (currentUser && currentUser.isAdmin()) { %>
+            <a href="/topics/new" class="btn btn-primary">New Topic</a>
+          <% } %>
+        </div>
+      </div>
 
-      <div class="card-deck">
+      <div class="card-columns">
         <% topics.forEach((topic) => { %>
-          <div class="card">
-            <a href="/topics/<%= topic.id %>">
-              <img src="" class="card-img-top" alt= <%= topic.title %> >
-              <div class="Card-body">
-                <h5 class="card-title"> <%=topic.title %> </h5>
-              </div>
-            </a>
-          </div>
+            <div class="card">
+              <a href="/topics/<%= topic.id %>">
+                <img src="https://source.unsplash.com/<%= topic.image %>" class="card-img-top" alt= <%= topic.title %> >
+                <div class="Card-body">
+                  <h5 class="card-title"> <%= topic.title %> </h5>
+                </div>
+              </a>
+            </div>
         <% }) %>
       </div>
     </main>
 
     <% include ../static/partials/baseScripts.ejs %>
-    
+
   </body>
 </html>

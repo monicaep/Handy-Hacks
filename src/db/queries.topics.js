@@ -31,7 +31,8 @@ module.exports = {
 
   addTopic(newTopic, callback) {
     return Topic.create({
-      title: newTopic.title
+      title: newTopic.title,
+      image: newTopic.image
     })
     .then((topic) => {
       callback(null, topic);
